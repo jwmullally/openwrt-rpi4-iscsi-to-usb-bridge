@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+# Set system hostname.
+
+uci -q batch << EOF
+set system.@system[0].hostname='owrt-iscsi-usb'
+commit system
+EOF

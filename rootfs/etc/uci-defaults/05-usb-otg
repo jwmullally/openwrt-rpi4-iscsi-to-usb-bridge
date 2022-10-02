@@ -1,0 +1,21 @@
+#!/bin/sh
+
+updated=0
+board="$(cat /tmp/sysinfo/board_name)"
+
+case "$board" in
+	raspberrypi,4-model-b)
+		if ! grep -q "^dtoverlay=dwc2$" /boot/config.txt; then
+			echo "dtoverlay=dwc2" >> /boot/config.txt
+			updated=1
+		fi
+	;;
+esac
+
+if [ "$updated" = "1" ]; then
+	flush
+	echo -e "\nEnabling USB OTG and rebooting..." > /dev/console
+	echo "Enabling USB OTG and rebooting..."
+	sleep 3
+	reboot
+fi

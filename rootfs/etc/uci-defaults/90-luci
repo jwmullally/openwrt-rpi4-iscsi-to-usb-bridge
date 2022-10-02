@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Provide easy access to some useful commands
+
+uci -q batch << EOF
+add luci command
+set luci.@command[-1].name="iSCSI Initiator Status"
+set luci.@command[-1].command="iscsiadm --mode session --print 3"
+
+add luci command
+set luci.@command[-1].name='Enable USB OTG Mass Storage'
+set luci.@command[-1].command='/etc/init.d/usb-otg start'
+
+add luci command
+set luci.@command[-1].name='Disable USB OTG Mass Storage'
+set luci.@command[-1].command='/etc/init.d/usb-otg stop'
+
+add luci command
+set luci.@command[-1].name='lsblk'
+set luci.@command[-1].command='lsblk'
+
+add luci command
+set luci.@command[-1].name='blkid'
+set luci.@command[-1].command='blkid'
+
+add luci command
+set luci.@command[-1].name="Reconfigure iSCSI"
+set luci.@command[-1].command="/usr/sbin/iscsi-configure.sh"
+
+commit luci
+EOF

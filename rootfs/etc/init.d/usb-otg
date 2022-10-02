@@ -1,0 +1,50 @@
+#!/bin/sh /etc/rc.common
+
+START=95
+STOP=95
+USE_PROCD=1
+
+
+get_iscsi_devices() {
+	find /sys/devices/platform/host0/ -type d -regex '^/sys/devices/platform/host0/session[0-9]*/target[0-9:]*/[0-9:]*/block/[^/]*$' -exec basename {} ';'
+}
+
+
+start_service() {
+
+	echo "Waiting for iSCSI devices..."
+	for loop_idx in $(seq 1 5); do
+		ISCSI_DEVICES="$(get_iscsi_devices)"
+		if [ -n "$ISCSI_DEVICES" ]; then
+			break
+		fi
+		sleep 5
+	done
+	if [ -n "$ISCSI_DEVICES" ]; then
+		echo "Found iSCSI block devices: $ISCSI_DEVICES" | tr '\n' ' '
+		echo
+	else
+		echo "Unable to find any iSCSI block devices"
+		exit 1
+	fi
+
+	arg_paths=""
+	arg_removable=""
+	for dev in $ISCSI_DEVICES; do
+		arg_paths="$arg_paths,/dev/$dev"
+		arg_removable="$arg_removable,0"
+	done
+	arg_paths="${arg_paths#?}"
+	arg_removable="${arg_removable#?}"
+
+	insmod g_mass_storage "file=$arg_paths" "removable=$arg_removable"
+	echo "USB OTG mass storage driver loaded with iSCSI devices: $arg_paths"
+
+}
+
+stop_service() {
+
+	rmmod g_mass_storage
+	echo "USB OTG mass storage driver unloaded"
+
+}

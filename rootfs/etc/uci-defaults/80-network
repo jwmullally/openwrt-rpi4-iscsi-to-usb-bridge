@@ -1,0 +1,23 @@
+#!/bin/sh
+set -e
+
+# Make eth0 a DHCP client interface to be connected to an existing
+# network where the iSCSI target can be found.
+
+uci -q batch << EOF
+del network.@device[0].ports
+set network.@device[0].bridge_empty='1'
+
+set network.wan=interface
+
+# DHCP for WAN interface
+set network.wan.proto='dhcp'
+set network.wan.device='eth0'
+set network.wan.force_link='1'
+
+# Static IP for WAN interface
+#set network.lan.proto='static'
+#set network.lan.ipaddr='192.168.200.2'
+
+commit network
+EOF

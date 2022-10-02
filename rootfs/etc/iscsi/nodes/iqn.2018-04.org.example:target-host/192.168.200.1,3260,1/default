@@ -1,0 +1,23 @@
+# BEGIN RECORD 2.1.3
+node.name = iqn.2018-04.org.example:target-host
+node.tpgt = 1
+node.startup = manual
+node.leading_login = No
+node.discovery_address = 192.168.200.1
+node.discovery_port = 3260
+node.discovery_type = send_targets
+node.session.auth.authmethod = CHAP
+node.session.auth.username = iscsiuser_in
+node.session.auth.password = password1234
+node.session.auth.username_in = iscsiuser_out
+node.session.auth.password_in = password5678
+node.session.auth.chap_algs = MD5
+node.session.timeo.replacement_timeout = 0
+node.conn[0].address = 192.168.200.1
+node.conn[0].port = 3260
+node.conn[0].startup = manual
+node.conn[0].timeo.noop_out_interval = 0
+node.conn[0].timeo.noop_out_timeout = 0
+node.conn[0].iscsi.HeaderDigest = None
+node.conn[0].iscsi.DataDigest = None
+# END RECORD

@@ -1,0 +1,13 @@
+#!/bin/sh
+set -e
+
+# Create a default Wi-Fi network for remote admin access.
+
+uci -q batch << EOF
+del wireless.radio0.disabled
+set wireless.default_radio0.ssid='owrt-iscsi-usb'
+set wireless.default_radio0.encryption='psk2'
+set wireless.default_radio0.key='pass1234'
+
+commit wireless
+EOF
