@@ -1,0 +1,6 @@
+BOARD := bcm27xx
+SUBTARGET := bcm2711
+PROFILE := rpi-4
+PLATFORM_PACKAGES := kmod-usb-dwc2
+
+include Makefile.common

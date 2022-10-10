@@ -11,7 +11,7 @@ This is useful when you have iSCSI Targets running on a network and want to acce
 
 * A Raspberry Pi 4 B.
 
-  * For other devices with USB OTG/device-mode that are supported by OpenWrt, you can adjust [`Makefile`](Makefile) and [`/etc/uci-defaults/05-usb-otg`](rootfs/etc/uci-defaults/05-usb-otg), then follow the Build instructions below.
+  * Or a similar device with USB-OTG/device-mode support, see below.
 
 * A USB-A to USB Type-C cable.
 
@@ -41,7 +41,7 @@ When booted:
 * `/etc/init.d/open-iscsi` iSCSI initiator will automatically connect to the previously configured iSCSI targets in [`/etc/iscsi`](rootfs/etc/iscsi).
 * [`/etc/init.d/usb-otg`](rootfs/etc/init.d/usb-otg) will find all iSCSI block devices and register them with the `g_mass_storage` USB Gadget Mass Storage driver.
 
-So if the Pi is plugged via the USB-C OTG connector into the USB port of another computer, after a few seconds of powering up the iSCSI target block devices will automatically appear to the computer as USB Mass Storage.
+When the Pi is plugged via the USB-C OTG connector into the USB port of another computer, after a few seconds of powering up the iSCSI target block devices will automatically appear to the computer as USB Mass Storage.
 
 To connect to a different iSCSI Target, modify [`/usr/sbin/iscsi-configure.sh`](rootfs/usr/sbin/iscsi-configure.sh) and re-run the script, which will replace the current settings in [`/etc/iscsi`](rootfs/etc/iscsi).
 
@@ -69,14 +69,29 @@ Results:
 * Latency 0.6 ms.
 
 
+## Supported devices
+
+The following Makefiles are included by default:
+
+* [`Makefile.rpi-4`](Makefile.rpi-4): Raspberry Pi 4 Model B
+
+* [`Makefile.radxa_rock-pi-4a`](Makefile.radxa_rock-pi-4a): Radxa ROCK 4
+
+* [`Makefile.x86-64`](Makefile.x86-64): Generic x86-64 QEMU test image
+
+For other devices with USB OTG/device-mode that are supported by OpenWrt, you can copy [`Makefile.rpi-4`](Makefile.rpi-4) and adjust [`/etc/uci-defaults/05-usb-otg`](rootfs/etc/uci-defaults/05-usb-otg), then follow the Build instructions below.
+
+
 ## Building
 
-### Debian
+### Debian/Ubuntu
 
 ```
-sudo make deps-debian
-make images 
+sudo make -f Makefile.common deps-debian
+make -f Makefile.rpi-4 images
 ```
+
+To install the build dependencies for other distributions, follow the OpenWrt Image Builder instructions.
 
 
 ## Reference

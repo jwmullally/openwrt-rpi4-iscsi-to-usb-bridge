@@ -1,0 +1,6 @@
+BOARD := rockchip
+SUBTARGET := armv8
+PROFILE := radxa_rock-pi-4a
+PLATFORM_PACKAGES := kmod-usb-dwc3
+
+include Makefile.common

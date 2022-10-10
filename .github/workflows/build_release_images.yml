@@ -14,9 +14,9 @@ jobs:
       - name: Update APT
         run: 'sudo apt-get update'
       - name: Install dependencies
-        run: 'sudo make deps-debian PKGMGR_OPTS="--yes"'
+        run: 'sudo make -f Makefile.common deps-debian PKGMGR_OPTS="--yes"'
       - name: Build firmware images
-        run: 'make images CURL_OPTS="-s"'
+        run: 'make -f Makefile.rpi-4 images CURL_OPTS="-s"'
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
@@ -26,6 +26,6 @@ jobs:
             [Build logs.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
           prerelease: True
           files: |
-            build/images/*
+            build/openwrt-imagebuilder-*/bin/targets/*/*/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

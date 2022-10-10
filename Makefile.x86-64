@@ -1,0 +1,19 @@
+BOARD := x86
+SUBTARGET := 64
+PROFILE := generic
+PLATFORM_PACKAGES := -kmod-usb-gadget-mass-storage kmod-veth wpad kmod-mac80211-hwsim
+
+include Makefile.common
+
+
+qemu:
+	test -f $(OUTPUT_DIR)/$(IMAGE_PREFIX)-squashfs-combined.img || gunzip $(OUTPUT_DIR)/$(IMAGE_PREFIX)-squashfs-combined.img.gz || true
+	qemu-system-x86_64 \
+		-nodefaults \
+		-smp 2 \
+		-m 256 \
+		-no-reboot \
+		-nographic \
+		-serial mon:stdio \
+		-drive format=raw,file=$(OUTPUT_DIR)/$(IMAGE_PREFIX)-squashfs-combined.img \
+		-nic user,model=virtio,hostfwd=tcp::30022-:22,hostfwd=tcp::30080-:80,hostfwd=tcp::30081-:81
