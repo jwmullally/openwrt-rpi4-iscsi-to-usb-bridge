@@ -13,7 +13,7 @@ case "$board" in
 esac
 
 if [ "$updated" = "1" ]; then
-	flush
+	sync
 	echo -e "\nEnabling USB OTG and rebooting..." > /dev/console
 	echo "Enabling USB OTG and rebooting..."
 	sleep 3

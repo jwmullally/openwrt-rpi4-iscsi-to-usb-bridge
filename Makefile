@@ -5,8 +5,8 @@ BOARD := bcm27xx
 SUBTARGET := bcm2711
 BUILDER := openwrt-imagebuilder-$(VERSION)-$(BOARD)-$(SUBTARGET).Linux-x86_64
 PROFILE := rpi-4
-EXTRA_IMAGE_NAME := iscsi-usb-otg
-PACKAGES := luci open-iscsi kmod-usb-dwc2 kmod-usb-gadget-mass-storage luci-app-commands blkid lsblk atop tcpdump
+EXTRA_IMAGE_NAME := iscsi-usb
+PACKAGES := luci open-iscsi tgt kmod-usb-dwc2 kmod-usb-gadget-mass-storage luci-app-commands blkid lsblk atop tcpdump
 
 BUILD_DIR := build
 OUTPUT_DIR := $(BUILD_DIR)/$(BUILDER)/bin/targets/$(BOARD)/$(SUBTARGET)

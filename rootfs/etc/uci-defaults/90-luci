@@ -24,8 +24,12 @@ set luci.@command[-1].name='blkid'
 set luci.@command[-1].command='blkid'
 
 add luci command
-set luci.@command[-1].name="Reconfigure iSCSI"
+set luci.@command[-1].name="Reconfigure iSCSI Initiator"
 set luci.@command[-1].command="/usr/sbin/iscsi-configure.sh"
+
+add luci command
+set luci.@command[-1].name="iSCSI Target Status"
+set luci.@command[-1].command="/etc/init.d/tgt show"
 
 commit luci
 EOF
